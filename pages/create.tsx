@@ -1,8 +1,8 @@
-import React, { useState } from "react"
-import Layout from "../components/Layout"
-import Router from "next/router"
-import gql from "graphql-tag"
-import { useMutation } from "@apollo/client"
+import React, { useState } from "react";
+import Layout from "../components/Layout";
+import Router from "next/router";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 
 const CreateDraftMutation = gql`
   mutation CreateDraftMutation(
@@ -21,22 +21,22 @@ const CreateDraftMutation = gql`
       }
     }
   }
-`
+`;
 
 function Draft(props) {
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [authorEmail, setAuthorEmail] = useState("")
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [authorEmail, setAuthorEmail] = useState("");
 
   const [createDraft, { loading, error, data }] =
-    useMutation(CreateDraftMutation)
+    useMutation(CreateDraftMutation);
 
   return (
     <Layout>
       <div>
         <form
           onSubmit={async (e) => {
-            e.preventDefault()
+            e.preventDefault();
 
             await createDraft({
               variables: {
@@ -44,8 +44,8 @@ function Draft(props) {
                 content,
                 authorEmail,
               },
-            })
-            Router.push("/drafts")
+            });
+            Router.push("/drafts");
           }}
         >
           <h1>Create Draft</h1>
@@ -108,7 +108,7 @@ function Draft(props) {
         }
       `}</style>
     </Layout>
-  )
+  );
 }
 
-export default Draft
+export default Draft;

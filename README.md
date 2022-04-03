@@ -46,7 +46,6 @@ npx prisma migrate dev --name init
 
 When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
 
-
 ### 2. Start the app
 
 ```
@@ -197,7 +196,6 @@ mutation {
 
 </Details>
 
-
 ## Evolving the app
 
 Evolving the application typically requires three steps:
@@ -339,7 +337,7 @@ const Mutation = objectType({
 +     args: {
 +       email: stringArg(),
 +       bio: stringArg()
-+     }, 
++     },
 +     resolve: async (_, args) => {
 +       return prisma.profile.create({
 +         data: {
@@ -362,10 +360,7 @@ Finally, you can test the new mutation like this:
 
 ```graphql
 mutation {
-  addProfileForUser(
-    email: "mahmoud@prisma.io"
-    bio: "I like turtles"
-  ) {
+  addProfileForUser(email: "mahmoud@prisma.io", bio: "I like turtles") {
     id
     bio
     user {
@@ -385,12 +380,12 @@ Here are some more sample Prisma Client queries on the new <code>Profile</code> 
 ```ts
 const profile = await prisma.profile.create({
   data: {
-    bio: 'Hello World',
+    bio: "Hello World",
     user: {
-      connect: { email: 'alice@prisma.io' },
+      connect: { email: "alice@prisma.io" },
     },
   },
-})
+});
 ```
 
 ##### Create a new user with a new profile
@@ -398,30 +393,30 @@ const profile = await prisma.profile.create({
 ```ts
 const user = await prisma.user.create({
   data: {
-    email: 'john@prisma.io',
-    name: 'John',
+    email: "john@prisma.io",
+    name: "John",
     profile: {
       create: {
-        bio: 'Hello World',
+        bio: "Hello World",
       },
     },
   },
-})
+});
 ```
 
 ##### Update the profile of an existing user
 
 ```ts
 const userWithUpdatedProfile = await prisma.user.update({
-  where: { email: 'alice@prisma.io' },
+  where: { email: "alice@prisma.io" },
   data: {
     profile: {
       update: {
-        bio: 'Hello Friends',
+        bio: "Hello Friends",
       },
     },
   },
-})
+});
 ```
 
 </details>

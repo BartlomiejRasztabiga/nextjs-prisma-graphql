@@ -1,7 +1,8 @@
-import Layout from "../components/Layout"
-import Link from "next/link"
-import gql from "graphql-tag"
-import { useQuery } from "@apollo/client"
+import Layout from "../components/Layout";
+import Link from "next/link";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const FeedQuery = gql`
   query FeedQuery {
@@ -16,7 +17,7 @@ const FeedQuery = gql`
       }
     }
   }
-`
+`;
 
 const Post = ({ post }) => (
   <Link href="/p/[id]" as={`/p/${post.id}`}>
@@ -34,18 +35,45 @@ const Post = ({ post }) => (
       `}</style>
     </a>
   </Link>
-)
+);
 
 const Blog = () => {
-  const { loading, error, data } = useQuery(FeedQuery, {
-    fetchPolicy: "cache-and-network",
-  })
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
-  if (loading) {
-    return <div>Loading ...</div>
+  const {
+    loading: queryLoading,
+    error,
+    data,
+  } = useQuery(FeedQuery, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (loading || queryLoading) {
+    return (
+      <div className="flex justify-center mt-8 text-center">
+        <div className="flex-auto">
+          <div className="text-lg mb-2">Loading...</div>
+        </div>
+      </div>
+    );
   }
+
+  if (!session) {
+    return (
+      <div className="flex justify-center mt-8 text-center">
+        <div className="flex-auto">
+          <div className="text-lg mb-2">You are not logged in!</div>
+          <button className="btn-green" onClick={() => signIn()}>
+            Sign in
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -53,7 +81,7 @@ const Blog = () => {
       <div className="page">
         <h1>My Blog</h1>
         <main>
-          {data.feed.map(post => (
+          {data.feed.map((post) => (
             <div key={post.id} className="post">
               <Post post={post} />
             </div>
@@ -75,7 +103,7 @@ const Blog = () => {
         }
       `}</style>
     </Layout>
-  )
-}
+  );
+};
 
-export default Blog
+export default Blog;

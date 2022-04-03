@@ -1,17 +1,12 @@
-import Link from "next/link"
-import { useRouter } from "next/router"
-
-// function isActive(pathname) {
-//   return (
-//     typeof document !== "undefined" && document.location.pathname === pathname
-//   )
-// }
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 const Header = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   function isActive(pathname) {
-    return router.pathname === pathname
+    return router.pathname === pathname;
   }
 
   return (
@@ -33,6 +28,7 @@ const Header = () => {
         <Link href="/create">
           <a data-active={isActive("/create")}>+ Create draft</a>
         </Link>
+        <button onClick={() => signOut()}>Sign out</button>
       </div>
       <style jsx>{`
         nav {
@@ -46,6 +42,12 @@ const Header = () => {
         }
 
         a {
+          text-decoration: none;
+          color: #000;
+          display: inline-block;
+        }
+
+        button {
           text-decoration: none;
           color: #000;
           display: inline-block;
@@ -68,9 +70,15 @@ const Header = () => {
           padding: 0.5rem 1rem;
           border-radius: 3px;
         }
+
+        .right button {
+          border: 1px solid black;
+          padding: 0.5rem 1rem;
+          border-radius: 3px;
+        }
       `}</style>
     </nav>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

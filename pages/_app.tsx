@@ -1,15 +1,21 @@
+import React from "react";
+import { SessionProvider } from "next-auth/react";
+import { AppProps } from "next/app";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import "../styles/global.css";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   uri: "/api",
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </SessionProvider>
   );
 }
 

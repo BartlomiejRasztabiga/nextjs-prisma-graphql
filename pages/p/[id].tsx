@@ -1,7 +1,7 @@
-import Layout from "../../components/Layout"
-import Router, { useRouter } from "next/router"
-import gql from "graphql-tag"
-import { useQuery, useMutation } from "@apollo/client"
+import Layout from "../../components/Layout";
+import Router, { useRouter } from "next/router";
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@apollo/client";
 
 const PostQuery = gql`
   query PostQuery($postId: String!) {
@@ -16,7 +16,7 @@ const PostQuery = gql`
       }
     }
   }
-`
+`;
 
 const PublishMutation = gql`
   mutation PublishMutation($postId: String!) {
@@ -31,7 +31,7 @@ const PublishMutation = gql`
       }
     }
   }
-`
+`;
 
 const DeleteMutation = gql`
   mutation DeleteMutation($postId: String!) {
@@ -46,34 +46,36 @@ const DeleteMutation = gql`
       }
     }
   }
-`
+`;
 
 function Post() {
-  const postId = useRouter().query.id
+  const postId = useRouter().query.id;
   const { loading, error, data } = useQuery(PostQuery, {
     variables: { postId },
-  })
+  });
 
-  const [publish] = useMutation(PublishMutation)
-  const [deletePost] = useMutation(DeleteMutation)
+  const [publish] = useMutation(PublishMutation);
+  const [deletePost] = useMutation(DeleteMutation);
 
   if (loading) {
-    console.log("loading")
-    return <div>Loading ...</div>
+    console.log("loading");
+    return <div>Loading ...</div>;
   }
   if (error) {
-    console.log("error")
-    return <div>Error: {error.message}</div>
+    console.log("error");
+    return <div>Error: {error.message}</div>;
   }
 
-  console.log(`response`, data)
+  console.log(`response`, data);
 
-  let title = data.post.title
+  let title = data.post.title;
   if (!data.post.published) {
-    title = `${title} (Draft)`
+    title = `${title} (Draft)`;
   }
 
-  const authorName = data.post.author ? data.post.author.name : "Unknown author"
+  const authorName = data.post.author
+    ? data.post.author.name
+    : "Unknown author";
   return (
     <Layout>
       <div>
@@ -82,26 +84,26 @@ function Post() {
         <p>{data.post.content}</p>
         {!data.post.published && (
           <button
-            onClick={async e => {
+            onClick={async (e) => {
               await publish({
                 variables: {
                   postId,
                 },
-              })
-              Router.push("/")
+              });
+              Router.push("/");
             }}
           >
             Publish
           </button>
         )}
         <button
-          onClick={async e => {
+          onClick={async (e) => {
             await deletePost({
               variables: {
                 postId,
               },
-            })
-            Router.push("/")
+            });
+            Router.push("/");
           }}
         >
           Delete
@@ -129,7 +131,7 @@ function Post() {
         }
       `}</style>
     </Layout>
-  )
+  );
 }
 
-export default Post
+export default Post;

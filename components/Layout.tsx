@@ -1,6 +1,6 @@
-import Header from './Header'
+import Header from "./Header";
 
-const Layout = props => (
+const Layout = (props) => (
   <div>
     <Header />
     <div className="layout">{props.children}</div>
@@ -19,9 +19,9 @@ const Layout = props => (
         margin: 0;
         padding: 0;
         font-size: 16px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-          Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-          'Segoe UI Symbol';
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
         background: rgba(0, 0, 0, 0.05);
       }
 
@@ -40,6 +40,6 @@ const Layout = props => (
       }
     `}</style>
   </div>
-)
+);
 
-export default Layout
+export default Layout;
