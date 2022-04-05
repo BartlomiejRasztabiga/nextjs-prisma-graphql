@@ -3,8 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { sign } from "crypto";
+import { signOut } from "next-auth/react";
 import Loading from "./Loading";
 import { User } from "../services/models/User";
 

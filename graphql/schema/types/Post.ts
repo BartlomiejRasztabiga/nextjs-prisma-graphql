@@ -1,4 +1,4 @@
-import { objectType, extendType, stringArg, nonNull, nullable } from "nexus";
+import { extendType, nonNull, nullable, objectType, stringArg } from "nexus";
 
 export const Post = objectType({
   name: "Post",

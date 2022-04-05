@@ -1,13 +1,10 @@
 import Layout from "../components/Layout";
-import Link from "next/link";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import Loading from "../components/Loading";
 import { User } from "../services/models/User";
 import { useSession } from "next-auth/react";
 import NotAuthorised from "../components/NotAuthorised";
 import React from "react";
-import { PostCard } from "../components/PostCard";
 import PostsList from "../components/PostsList";
 import { DraftsQuery } from "../services/graphql/queries";
 
@@ -45,9 +42,7 @@ const Drafts = (props) => {
       <main className="bg-gray-200 shadow">
         <div className="bg-gray-100 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 border-t border-gray-200">
           <div className="layout">
-            <main>
-              {queryLoading ? <Loading /> : <PostsList posts={data.feed} />}
-            </main>
+            {queryLoading ? <Loading /> : <PostsList posts={data.feed} />}
           </div>
         </div>
       </main>

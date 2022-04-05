@@ -1,4 +1,4 @@
-import { makeSchema, asNexusMethod } from "nexus";
+import { asNexusMethod, makeSchema } from "nexus";
 import { DateTimeResolver } from "graphql-scalars";
 import path from "path";
 import { applyMiddleware } from "graphql-middleware";

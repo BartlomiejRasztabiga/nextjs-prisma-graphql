@@ -1,6 +1,10 @@
 # Fullstack Example with Next.js (GraphQL API)
 
-This example shows how to implement a **fullstack app in TypeScript with [Next.js](https://nextjs.org/)** using [React](https://reactjs.org/), [Apollo Client](https://www.apollographql.com/docs/react/) (frontend), [Nexus Schema](https://nxs.li/components/standalone/schema) and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It uses a SQLite database file with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
+This example shows how to implement a **fullstack app in TypeScript with [Next.js](https://nextjs.org/)**
+using [React](https://reactjs.org/), [Apollo Client](https://www.apollographql.com/docs/react/) (frontend)
+, [Nexus Schema](https://nxs.li/components/standalone/schema)
+and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It uses a SQLite
+database file with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
 
 ## Getting started
 
@@ -38,13 +42,15 @@ npm install
 
 ### 2. Create and seed the database
 
-Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
+Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are
+defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```
 npx prisma migrate dev --name init
 ```
 
-When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
+When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file
+in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
 
 ### 2. Start the app
 
@@ -52,7 +58,8 @@ When `npx prisma migrate dev` is executed against a newly created database, seed
 npm run dev
 ```
 
-The app is now running, navigate to [`http://localhost:3000/`](http://localhost:3000/) in your browser to explore its UI.
+The app is now running, navigate to [`http://localhost:3000/`](http://localhost:3000/) in your browser to explore its
+UI.
 
 <details><summary>Expand for a tour through the UI of the app</summary>
 
@@ -82,7 +89,8 @@ The app is now running, navigate to [`http://localhost:3000/`](http://localhost:
 
 ## Using the GraphQL API
 
-You can also access the GraphQL API of the API server directly. It is running on the same host machine and port and can be accessed via the `/api` route (in this case that is [`localhost:3000/api`](http://localhost:3000/api)).
+You can also access the GraphQL API of the API server directly. It is running on the same host machine and port and can
+be accessed via the `/api` route (in this case that is [`localhost:3000/api`](http://localhost:3000/api)).
 
 Below are a number of operations that you can send to the API.
 
@@ -204,11 +212,13 @@ Evolving the application typically requires three steps:
 1. Update your server-side application code
 1. Build new UI features in React
 
-For the following example scenario, assume you want to add a "profile" feature to the app where users can create a profile and write a short bio about themselves.
+For the following example scenario, assume you want to add a "profile" feature to the app where users can create a
+profile and write a short bio about themselves.
 
 ### 1. Migrate your database using Prisma Migrate
 
-The first step is to add a new table, e.g. called `Profile`, to the database. You can do this by adding a new model to your [Prisma schema file](./prisma/schema.prisma) file and then running a migration afterwards:
+The first step is to add a new table, e.g. called `Profile`, to the database. You can do this by adding a new model to
+your [Prisma schema file](./prisma/schema.prisma) file and then running a migration afterwards:
 
 ```diff
 // ./prisma/schema.prisma
@@ -248,7 +258,8 @@ This adds another migration to the `prisma/migrations` directory and creates the
 
 ### 2. Update your application code
 
-You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Those operations can be used to implement queries and mutations in the GraphQL API.
+You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Those operations can
+be used to implement queries and mutations in the GraphQL API.
 
 #### 2.1. Add the `Profile` type to your GraphQL schema
 
@@ -319,7 +330,8 @@ export const schema = makeSchema({
 }
 ```
 
-Note that in order to resolve any type errors, your development server needs to be running so that the Nexus types can be generated. If it's not running, you can start it with `npm run dev`.
+Note that in order to resolve any type errors, your development server needs to be running so that the Nexus types can
+be generated. If it's not running, you can start it with `npm run dev`.
 
 #### 2.2. Add a `createProfile` GraphQL mutation
 
@@ -423,13 +435,17 @@ const userWithUpdatedProfile = await prisma.user.update({
 
 ### 3. Build new UI features in React
 
-Once you have added a new query or mutation to the API, you can start building a new UI component in React. It could e.g. be called `profile.tsx` and would be located in the `pages` directory.
+Once you have added a new query or mutation to the API, you can start building a new UI component in React. It could
+e.g. be called `profile.tsx` and would be located in the `pages` directory.
 
-In the application code, you can access the new operations via Apollo Client and populate the UI with the data you receive from the API calls.
+In the application code, you can access the new operations via Apollo Client and populate the UI with the data you
+receive from the API calls.
 
 ## Next steps
 
 - Check out the [Prisma docs](https://www.prisma.io/docs)
-- Share your feedback in the [`prisma2`](https://prisma.slack.com/messages/CKQTGR6T0/) channel on the [Prisma Slack](https://slack.prisma.io/)
+- Share your feedback in the [`prisma2`](https://prisma.slack.com/messages/CKQTGR6T0/) channel on
+  the [Prisma Slack](https://slack.prisma.io/)
 - Create issues and ask questions on [GitHub](https://github.com/prisma/prisma/)
-- Watch our biweekly "What's new in Prisma" livestreams on [Youtube](https://www.youtube.com/channel/UCptAHlN1gdwD89tFM3ENb6w)
+- Watch our biweekly "What's new in Prisma" livestreams
+  on [Youtube](https://www.youtube.com/channel/UCptAHlN1gdwD89tFM3ENb6w)

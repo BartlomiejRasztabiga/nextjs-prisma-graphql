@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import Router from "next/router";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { useSession } from "next-auth/react";
 import { User } from "../services/models/User";
@@ -29,52 +28,63 @@ function Draft(props) {
 
   return (
     <Layout user={session.user as User}>
-      <div>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-gray-900">Blog</h1>
+        </div>
+      </header>
+      <main className="bg-gray-200 shadow">
+        <div className="bg-gray-100 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 border-t border-gray-200">
+          <div className="layout">
+            <div>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
 
-            await createDraft({
-              variables: {
-                title,
-                content,
-                authorEmail,
-              },
-            });
-            Router.push("/drafts");
-          }}
-        >
-          <h1>Create Draft</h1>
-          <input
-            autoFocus
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-            type="text"
-            value={title}
-          />
-          <input
-            onChange={(e) => setAuthorEmail(e.target.value)}
-            placeholder="Author (email adress)"
-            type="text"
-            value={authorEmail}
-          />
-          <textarea
-            cols={50}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Content"
-            rows={8}
-            value={content}
-          />
-          <input
-            disabled={!content || !title || !authorEmail}
-            type="submit"
-            value="Create"
-          />
-          <a className="back" href="#" onClick={() => Router.push("/")}>
-            or Cancel
-          </a>
-        </form>
-      </div>
+                  await createDraft({
+                    variables: {
+                      title,
+                      content,
+                      authorEmail,
+                    },
+                  });
+                  Router.push("/drafts");
+                }}
+              >
+                <h1>Create Draft</h1>
+                <input
+                  autoFocus
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Title"
+                  type="text"
+                  value={title}
+                />
+                <input
+                  onChange={(e) => setAuthorEmail(e.target.value)}
+                  placeholder="Author (email adress)"
+                  type="text"
+                  value={authorEmail}
+                />
+                <textarea
+                  cols={50}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Content"
+                  rows={8}
+                  value={content}
+                />
+                <input
+                  disabled={!content || !title || !authorEmail}
+                  type="submit"
+                  value="Create"
+                />
+                <a className="back" href="#" onClick={() => Router.push("/")}>
+                  or Cancel
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
       <style jsx>{`
         .page {
           background: white;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
-import Router, { useRouter } from "next/router";
-import gql from "graphql-tag";
+import Router from "next/router";
 import { useMutation } from "@apollo/client";
 import { useSession } from "next-auth/react";
 import { User } from "../services/models/User";
@@ -28,40 +27,55 @@ function Signup(props) {
 
   return (
     <Layout user={session.user as User}>
-      <div>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-gray-900">Blog</h1>
+        </div>
+      </header>
+      <main className="bg-gray-200 shadow">
+        <div className="bg-gray-100 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 border-t border-gray-200">
+          <div className="layout">
+            <div>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
 
-            await signup({
-              variables: {
-                name: name,
-                email: email,
-              },
-            });
-            Router.push("/");
-          }}
-        >
-          <h1>Signup user</h1>
-          <input
-            autoFocus
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-            type="text"
-            value={name}
-          />
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email address)"
-            type="text"
-            value={email}
-          />
-          <input disabled={!name || !email} type="submit" value="Signup" />
-          <a className="back" href="#" onClick={() => Router.push("/")}>
-            or Cancel
-          </a>
-        </form>
-      </div>
+                  await signup({
+                    variables: {
+                      name: name,
+                      email: email,
+                    },
+                  });
+                  Router.push("/");
+                }}
+              >
+                <h1>Signup user</h1>
+                <input
+                  autoFocus
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Name"
+                  type="text"
+                  value={name}
+                />
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address)"
+                  type="text"
+                  value={email}
+                />
+                <input
+                  disabled={!name || !email}
+                  type="submit"
+                  value="Signup"
+                />
+                <a className="back" href="#" onClick={() => Router.push("/")}>
+                  or Cancel
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
       <style jsx>{`
         .page {
           background: white;

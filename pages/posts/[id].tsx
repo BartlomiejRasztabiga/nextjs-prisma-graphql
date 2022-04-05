@@ -1,18 +1,16 @@
 import Layout from "../../components/Layout";
 import Router, { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Loading from "../../components/Loading";
 import { User } from "../../services/models/User";
 import { useSession } from "next-auth/react";
-import { Post } from "../../services/models/Post";
 import { PostQuery } from "../../services/graphql/queries";
 import {
   DeleteMutation,
   PublishMutation,
 } from "../../services/graphql/mutations";
-import PostsList from "../../components/PostsList";
 import React from "react";
+import NotAuthorised from "../../components/NotAuthorised";
 
 function PostPage() {
   const { data: session, status } = useSession();
@@ -47,6 +45,10 @@ function PostPage() {
   }
   if (error) {
     return <div>Error: {error.message}</div>;
+  }
+
+  if (!session) {
+    return <NotAuthorised />;
   }
 
   return (
