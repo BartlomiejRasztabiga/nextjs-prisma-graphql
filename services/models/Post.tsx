@@ -10,4 +10,5 @@ export interface Post {
   author: Author;
   image: string;
   published: boolean;
+  content: string;
 }

@@ -6,12 +6,14 @@ interface PostCardProps {
   post: Post;
 }
 
-export const PostCard = ({ post }) => (
-  <Link href="/p/[id]" as={`/p/${post.id}`}>
+export const PostCard = (props: PostCardProps) => (
+  <Link href="/posts/[id]" as={`/posts/${props.post.id}`}>
     <a>
-      <h2>{post.title}</h2>
-      <small>By {post.author ? post.author.name : "Unknown Author"}</small>
-      <p>{post.content}</p>
+      <h2>{props.post.title}</h2>
+      <small>
+        By {props.post.author ? props.post.author.name : "Unknown Author"}
+      </small>
+      <p>{props.post.content}</p>
       <style jsx>{`
         a {
           text-decoration: none;
