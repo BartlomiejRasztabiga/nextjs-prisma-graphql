@@ -7,7 +7,7 @@ interface PostsListProps {
 }
 
 export default function PostsList(props: PostsListProps) {
-  if (!props.posts) {
+  if (props.posts.length == 0) {
     return (
       <div className="text-center">
         <span>No posts to display</span>
