@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { sign } from "crypto";
+import Loading from "./Loading";
+import { User } from "../services/models/User";
 
 const navigation = [
   { name: "Blog", href: "/" },
@@ -21,14 +23,19 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
+interface NavbarProps {
+  user: User;
+}
 
-  const user = session.user;
+export default function Navbar(props: NavbarProps) {
+  const router = useRouter();
 
   function isActive(pathname) {
     return router.pathname === pathname || router.pathname === "/" + pathname;
+  }
+
+  if (!props.user) {
+    return <Loading />;
   }
 
   return (
@@ -87,7 +94,7 @@ export default function Navbar() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={user.image}
+                          src={props.user.image}
                           alt=""
                         />
                       </Menu.Button>
@@ -168,16 +175,16 @@ export default function Navbar() {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={user.image}
+                    src={props.user.image}
                     alt=""
                   />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium leading-none text-white">
-                    {user.name}
+                    {props.user.name}
                   </div>
                   <div className="text-sm font-medium leading-none text-gray-400">
-                    {user.email}
+                    {props.user.email}
                   </div>
                 </div>
                 <button

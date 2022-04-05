@@ -2,78 +2,55 @@ import Layout from "../components/Layout";
 import Link from "next/link";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
+import Loading from "../components/Loading";
+import { User } from "../services/models/User";
+import { useSession } from "next-auth/react";
+import NotAuthorised from "../components/NotAuthorised";
+import React from "react";
+import { PostCard } from "../components/PostCard";
+import PostsList from "../components/PostsList";
+import { DraftsQuery } from "../services/graphql/queries";
 
-const DraftsQuery = gql`
-  query DraftsQuery {
-    drafts {
-      id
-      title
-      content
-      published
-      author {
-        id
-        name
-      }
-    }
-  }
-`;
+const Drafts = (props) => {
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
-const Post = ({ post }) => (
-  <Link href="/p/[id]" as={`/p/${post.id}`}>
-    <a>
-      <h2>{post.title}</h2>
-      <small>By {post.author ? post.author.name : "Unknown Author"}</small>
-      <p>{post.content}</p>
-      <style jsx>{`
-        a {
-          text-decoration: none;
-          color: inherit;
-          padding: 2rem;
-          display: block;
-        }
-      `}</style>
-    </a>
-  </Link>
-);
-
-const Drafts = () => {
-  const { loading, error, data } = useQuery(DraftsQuery, {
+  const {
+    loading: queryLoading,
+    error,
+    data,
+  } = useQuery(DraftsQuery, {
     fetchPolicy: "cache-and-network",
   });
 
   if (loading) {
-    return <div>Loading ...</div>;
+    return <></>;
   }
+
+  if (!session) {
+    return <NotAuthorised />;
+  }
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
 
   return (
-    <Layout>
-      <div className="page">
-        <h1>Drafts</h1>
-        <main>
-          {data.drafts.map((post) => (
-            <div key={post.id} className="post">
-              <Post post={post} />
-            </div>
-          ))}
-        </main>
-      </div>
-      <style jsx>{`
-        .post {
-          background: white;
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
+    <Layout user={session.user as User}>
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-gray-900">Drafts</h1>
+        </div>
+      </header>
+      <main className="bg-gray-200 shadow">
+        <div className="bg-gray-100 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 border-t border-gray-200">
+          <div className="layout">
+            <main>
+              {queryLoading ? <Loading /> : <PostsList posts={data.feed} />}
+            </main>
+          </div>
+        </div>
+      </main>
     </Layout>
   );
 };

@@ -1,11 +1,18 @@
 /* This example requires Tailwind CSS v2.0+ */
+import React, { ReactNode } from "react";
 import Navbar from "./Navbar";
+import { User } from "../services/models/User";
 
-export default function Layout(props) {
+interface LayoutProps {
+  user: User;
+  children: ReactNode;
+}
+
+export default function Layout(props: LayoutProps) {
   return (
     <>
       <div className="min-h-full">
-        <Navbar />
+        <Navbar user={props.user} />
         <main>{props.children}</main>
       </div>
     </>

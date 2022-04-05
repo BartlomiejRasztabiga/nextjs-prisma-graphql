@@ -3,36 +3,32 @@ import Layout from "../components/Layout";
 import Router from "next/router";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
-
-const CreateDraftMutation = gql`
-  mutation CreateDraftMutation(
-    $title: String!
-    $content: String
-    $authorEmail: String!
-  ) {
-    createDraft(title: $title, content: $content, authorEmail: $authorEmail) {
-      id
-      title
-      content
-      published
-      author {
-        id
-        name
-      }
-    }
-  }
-`;
+import { useSession } from "next-auth/react";
+import { User } from "../services/models/User";
+import NotAuthorised from "../components/NotAuthorised";
+import { CreateDraftMutation } from "../services/graphql/mutations";
 
 function Draft(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [authorEmail, setAuthorEmail] = useState("");
 
-  const [createDraft, { loading, error, data }] =
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+
+  const [createDraft, { loading: queryLoading, error, data }] =
     useMutation(CreateDraftMutation);
 
+  if (loading) {
+    return <></>;
+  }
+
+  if (!session) {
+    return <NotAuthorised />;
+  }
+
   return (
-    <Layout>
+    <Layout user={session.user as User}>
       <div>
         <form
           onSubmit={async (e) => {

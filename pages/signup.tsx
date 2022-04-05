@@ -3,25 +3,31 @@ import Layout from "../components/Layout";
 import Router, { useRouter } from "next/router";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
-
-const SignupMutation = gql`
-  mutation SignupMutation($name: String, $email: String!) {
-    signupUser(name: $name, email: $email) {
-      id
-      name
-      email
-    }
-  }
-`;
+import { useSession } from "next-auth/react";
+import { User } from "../services/models/User";
+import Loading from "../components/Loading";
+import NotAuthorised from "../components/NotAuthorised";
+import { SignupMutation } from "../services/graphql/mutations";
 
 function Signup(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+
   const [signup] = useMutation(SignupMutation);
 
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!session) {
+    return <NotAuthorised />;
+  }
+
   return (
-    <Layout>
+    <Layout user={session.user as User}>
       <div>
         <form
           onSubmit={async (e) => {
