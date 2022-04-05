@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { User } from "../services/models/User";
 import NotAuthorised from "../components/NotAuthorised";
 import { CreateDraftMutation } from "../services/graphql/mutations";
+import { DraftsQuery } from "../services/graphql/queries";
 
 function Draft(props) {
   const [title, setTitle] = useState("");
@@ -15,8 +16,12 @@ function Draft(props) {
   const { data: session, status } = useSession();
   const loading = status === "loading";
 
-  const [createDraft, { loading: queryLoading, error, data }] =
-    useMutation(CreateDraftMutation);
+  const [createDraft, { loading: queryLoading, error, data }] = useMutation(
+    CreateDraftMutation,
+    {
+      refetchQueries: [{ query: DraftsQuery }],
+    }
+  );
 
   if (loading) {
     return <></>;

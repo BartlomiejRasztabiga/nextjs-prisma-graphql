@@ -4,7 +4,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import Loading from "../../components/Loading";
 import { User } from "../../services/models/User";
 import { useSession } from "next-auth/react";
-import { PostQuery } from "../../services/graphql/queries";
+import {
+  DraftsQuery,
+  FeedQuery,
+  PostQuery,
+} from "../../services/graphql/queries";
 import {
   DeleteMutation,
   PublishMutation,
@@ -25,8 +29,12 @@ function PostPage() {
     variables: { postId },
   });
 
-  const [publish] = useMutation(PublishMutation);
-  const [deletePost] = useMutation(DeleteMutation);
+  const [publish] = useMutation(PublishMutation, {
+    refetchQueries: [{ query: DraftsQuery }, { query: FeedQuery }],
+  });
+  const [deletePost] = useMutation(DeleteMutation, {
+    refetchQueries: [{ query: DraftsQuery }, { query: FeedQuery }],
+  });
 
   const getPostTitle = () => {
     let title = data.post.title;

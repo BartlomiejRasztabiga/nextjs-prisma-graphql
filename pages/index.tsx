@@ -12,13 +12,7 @@ const Blog = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
 
-  const {
-    loading: queryLoading,
-    error,
-    data,
-  } = useQuery(FeedQuery, {
-    fetchPolicy: "cache-and-network",
-  });
+  const { loading: queryLoading, error, data } = useQuery(FeedQuery);
 
   if (loading) {
     return <></>;

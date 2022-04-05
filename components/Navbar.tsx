@@ -9,9 +9,9 @@ import { User } from "../services/models/User";
 
 const navigation = [
   { name: "Blog", href: "/" },
-  { name: "Drafts", href: "drafts" },
-  { name: "Create post", href: "create" },
-  { name: "Sign up", href: "signup" },
+  { name: "Drafts", href: "/drafts" },
+  { name: "Create post", href: "/create" },
+  { name: "Sign up", href: "/signup" },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },

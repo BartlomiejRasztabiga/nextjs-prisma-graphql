@@ -12,13 +12,7 @@ const Drafts = (props) => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
 
-  const {
-    loading: queryLoading,
-    error,
-    data,
-  } = useQuery(DraftsQuery, {
-    fetchPolicy: "cache-and-network",
-  });
+  const { loading: queryLoading, error, data } = useQuery(DraftsQuery);
 
   if (loading) {
     return <></>;
@@ -42,7 +36,7 @@ const Drafts = (props) => {
       <main className="bg-gray-200 shadow">
         <div className="bg-gray-100 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 border-t border-gray-200">
           <div className="layout">
-            {queryLoading ? <Loading /> : <PostsList posts={data.feed} />}
+            {queryLoading ? <Loading /> : <PostsList posts={data.drafts} />}
           </div>
         </div>
       </main>
