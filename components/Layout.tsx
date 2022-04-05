@@ -2,14 +2,12 @@
 import Navbar from "./Navbar";
 
 export default function Layout(props) {
-    return (
-        <>
-            <div className="min-h-full">
-                <Navbar/>
-                <main>
-                    {props.children}
-                </main>
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className="min-h-full">
+        <Navbar />
+        <main>{props.children}</main>
+      </div>
+    </>
+  );
 }
